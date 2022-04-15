@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-  name: "PersonalRecom",
+  name: "DiscoverComp",
 };
 </script>
 <style lang="less" scoped></style>

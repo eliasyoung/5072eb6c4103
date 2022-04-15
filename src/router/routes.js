@@ -1,11 +1,22 @@
-const PersonalRecom = () => import("@/views/PersonalRecom");
+const Discover = () => import("@/views/Discover");
+const Playlist = () => import("@/views/Playlist");
 
 export default [
   {
     path: "/",
-    name: "personalrecom",
-    component: PersonalRecom,
+    redirect: "discover",
   },
+  {
+    path: "/discover",
+    name: "discover",
+    component: Discover,
+  },
+  {
+    path: "/playlist",
+    name: "playlist",
+    component: Playlist,
+  },
+
   // {
   //   path: "/about",
   //   name: "about",
