@@ -2,6 +2,7 @@
   <div>
     <ul>
       <li
+        class="cursor-pointer"
         v-for="(item, index) in routesList"
         :key="index"
         :class="{ active: index == currentTabIndex }"
@@ -25,11 +26,11 @@ export default {
     return {
       routesList: [
         { title: "个性推荐", path: "/discover" },
-        { title: "歌单", path: "/playlist" },
-        { title: "主播电台", path: "/djradio" },
-        { title: "排行榜", path: "/toplist" },
-        { title: "歌手", path: "/artist" },
-        { title: "最新音乐", path: "/newest" },
+        { title: "歌单", path: "/discover/playlist" },
+        { title: "主播电台", path: "/discover/djradio" },
+        { title: "排行榜", path: "/discover/toplist" },
+        { title: "歌手", path: "/discover/artist" },
+        { title: "最新音乐", path: "/discover/newest" },
       ],
     };
   },
@@ -55,7 +56,6 @@ ul {
     display: inline-block;
     list-style: none;
     margin-right: 24px;
-    cursor: pointer;
     color: rgb(55, 55, 55);
     &:hover {
       color: #000;
@@ -63,7 +63,7 @@ ul {
     &.active {
       font-size: 20px;
       font-weight: 800;
-      color: #000;
+      color: rgb(55, 55, 55);
       position: relative;
       &::after {
         position: absolute;

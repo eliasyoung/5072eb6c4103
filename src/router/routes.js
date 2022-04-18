@@ -1,4 +1,5 @@
 const Discover = () => import("@/views/Discover");
+const PersonalRecom = () => import("@/views/PersonalRecom");
 const Playlist = () => import("@/views/Playlist");
 
 export default [
@@ -8,13 +9,11 @@ export default [
   },
   {
     path: "/discover",
-    name: "discover",
     component: Discover,
-  },
-  {
-    path: "/playlist",
-    name: "playlist",
-    component: Playlist,
+    children: [
+      { path: "", name: "discover", component: PersonalRecom },
+      { path: "playlist", name: "playlist", component: Playlist },
+    ],
   },
 
   // {

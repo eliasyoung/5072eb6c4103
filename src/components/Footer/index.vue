@@ -8,6 +8,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .footer-container {
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
   height: 75px;
   width: 100%;
   border-top: 1px solid rgb(225, 225, 225);

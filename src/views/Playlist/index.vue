@@ -1,5 +1,5 @@
 <template>
-  <div><router-menu></router-menu></div>
+  <div>playlist</div>
 </template>
 <script>
 export default {

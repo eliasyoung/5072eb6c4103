@@ -1,37 +1,42 @@
 <template>
   <div id="app">
-    <div class="flex">
-      <header-comp></header-comp>
-      <div class="main">
-        <!-- <nav>
+    <header-comp></header-comp>
+    <div class="main">
+      <!-- <nav>
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
       </nav>
       <router-view /> -->
-        <aside-menu></aside-menu>
-        <div class="main-view">
-          <router-view />
-        </div>
+      <aside-menu></aside-menu>
+      <div class="main-view">
+        <router-view />
       </div>
-      <footer-comp></footer-comp>
     </div>
+    <footer-comp></footer-comp>
   </div>
 </template>
 
 <style lang="less">
+.cursor-pointer {
+  cursor: pointer;
+}
 #app {
-  height: inherit;
-  .flex {
-    height: inherit;
+  height: 100%;
+  // .flex {
+  //   height: 100%;
+  // display: flex;
+  // flex-flow: column nowrap;
+  // }
+  .main {
+    padding-top: 60px;
+    padding-bottom: 75px;
     display: flex;
-    flex-flow: column nowrap;
-    .main {
+    height: 100%;
+    .main-view {
+      overflow: auto;
       flex-grow: 1;
-      display: flex;
-      .main-view {
-        flex-grow: 1;
-        padding: 24px 32px;
-      }
+      padding: 24px 32px;
+      border-left: 1px solid rgb(225, 225, 225);
     }
   }
 }

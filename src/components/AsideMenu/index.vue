@@ -1,5 +1,6 @@
 <template>
-  <div class="aside-container"></div>
+  <div class="aside-container">
+  </div>
 </template>
 <script>
 export default {
@@ -9,7 +10,6 @@ export default {
 <style lang="less" scoped>
 .aside-container {
   width: 200px;
-  height: 100%;
-  border-right: 1px solid rgb(225, 225, 225);
+  overflow: auto;
 }
 </style>

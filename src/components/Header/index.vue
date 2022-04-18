@@ -1,7 +1,9 @@
 <template>
   <div class="nav-container">
     <div class="left-wrapper">
-      <div class="logo-wrapper"><i class="iconfont icon-logView"></i></div>
+      <div class="logo-wrapper cursor-pointer">
+        <i class="iconfont icon-logView"></i>
+      </div>
       <div class="arrow-wrapper">
         <i class="iconfont icon-arrow-left-bold"></i>
         <i class="iconfont icon-arrow-right-bold"></i>
@@ -9,13 +11,13 @@
       <el-input placeholder="搜索">
         <i slot="prefix" class="iconfont icon-search"></i>
       </el-input>
-      <div class="tinggeshiqu">
+      <div class="tinggeshiqu cursor-pointer">
         <i class="iconfont icon-tinggeshiqu"></i>
       </div>
     </div>
-    <i class="iconfont icon-message unread-message"></i>
-    <i class="iconfont icon-skin"></i>
-    <i class="iconfont icon-setting"></i>
+    <i class="iconfont icon-message unread-message cursor-pointer"></i>
+    <i class="iconfont icon-skin cursor-pointer"></i>
+    <i class="iconfont icon-setting cursor-pointer"></i>
     <div class="user-wrapper">
       <el-avatar :size="30" icon="el-icon-user"></el-avatar>
       <span>未登录<i class="el-icon-arrow-down el-icon--right"></i></span>
@@ -35,10 +37,12 @@ export default {
   width: 100%;
   height: 60px;
   line-height: 60px;
+  position: fixed;
+  top: 0;
+  z-index: 999;
   .logo-wrapper {
     float: left;
     color: #fff;
-    cursor: pointer;
 
     .icon-logView {
       font-size: 42px;
@@ -85,7 +89,6 @@ export default {
     float: left;
     margin-left: 8px;
     color: rgb(252, 220, 220);
-    cursor: pointer;
 
     i {
       vertical-align: middle;
@@ -117,7 +120,6 @@ export default {
     font-size: 24px;
     float: right;
     margin-left: 14px;
-    cursor: pointer;
     &:first-of-type {
       margin-right: 24px;
       position: relative;
