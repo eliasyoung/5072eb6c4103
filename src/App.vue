@@ -20,6 +20,67 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.cursor-default {
+  cursor: default;
+}
+
+.flex {
+  display: flex;
+}
+
+.fd-column-nowrap {
+  flex-flow: column nowrap;
+}
+
+.fd-column-wrap {
+  flex-flow: column wrap;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+.jc-se {
+  justify-content: space-evenly;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.fw-8 {
+  font-weight: 800;
+}
+
+.fw-1 {
+  font-weight: 100;
+}
+
+.b-radius-4 {
+  border-radius: 4px;
+}
+
+.b-radius-6 {
+  border-radius: 6px;
+}
+
+.b-radius-8 {
+  border-radius: 8px;
+}
+
+.mg-l-10 {
+  margin-left: 10px;
+}
+
 #app {
   height: 100%;
   // .flex {

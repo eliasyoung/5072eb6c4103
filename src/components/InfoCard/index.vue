@@ -3,11 +3,23 @@
     <div class="header-container cursor-pointer">
       <h1>{{ name }}<i class="el-icon-arrow-right"></i></h1>
     </div>
-    <slot :infoData="infoData">
-      <div class="outer-container">
-        <div class="content-container" v-for="item in infoData" :key="item.id">
+    <slot :infoData="dataList">
+      <div
+        class="outer-container"
+        v-for="(list, index) in dataList"
+        :key="index"
+      >
+        <div
+          class="content-container"
+          v-for="item in list"
+          :key="item.id"
+          :style="{
+            maxWidth: contentMaxWidth,
+          }"
+        >
           <div class="img-container">
             <img
+              class="cursor-pointer"
               :src="item.sPicUrl || item.picUrl"
               :style="{ height: imgHeight + 'px' }"
             />
@@ -40,12 +52,37 @@ export default {
       type: Number,
       required: false,
     },
+    numPerRow: {
+      type: Number,
+      required: false,
+      default: 5,
+    },
+  },
+  computed: {
+    rowNumber() {
+      return Math.ceil(this.infoData.length / this.numPerRow);
+    },
+    dataList() {
+      const arr = [];
+      for (let i = 0; i < this.rowNumber; i++) {
+        arr.push(
+          this.infoData.slice(i * this.numPerRow, (i + 1) * this.numPerRow)
+        );
+      }
+      return arr;
+    },
+    contentMaxWidth() {
+      return this.infoData.length <= this.numPerRow
+        ? "100%"
+        : (1100 - (this.numPerRow - 1) * 18) / this.numPerRow + "px";
+    },
   },
 };
 </script>
 <style lang="less" scoped>
 .info-card-container {
-  margin-top: 26px;
+  margin-top: 10px;
+  margin-bottom: 32px;
   .header-container {
     // line-height: 20px;
     margin-bottom: 2px;

@@ -1,7 +1,11 @@
 import axios from "axios";
 
-const requests = axios.create({
-  timeout: 10000,
-});
+axios.defaults.timeout = 10000;
 
-export default requests;
+/* 封装get */
+export default (url, params) => {
+  return axios
+    .get(url, { params })
+    .then((res) => res.data)
+    .catch((err) => err);
+};
