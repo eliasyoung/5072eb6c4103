@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="router-menu-container flex">
     <ul>
       <li
         class="cursor-pointer"
@@ -51,28 +51,37 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-ul {
-  li {
-    display: inline-block;
-    list-style: none;
-    margin-right: 24px;
-    color: rgb(55, 55, 55);
-    &:hover {
-      color: #000;
-    }
-    &.active {
-      font-size: 20px;
-      font-weight: 800;
+.router-menu-container {
+  position: fixed;
+  height: 60px;
+  top: 60px;
+  background: #fff;
+  width: 100%;
+  z-index: 999;
+  align-items: center;
+  ul {
+    li {
+      display: inline-block;
+      list-style: none;
+      margin-right: 24px;
       color: rgb(55, 55, 55);
-      position: relative;
-      &::after {
-        position: absolute;
-        bottom: -8px;
-        content: "";
-        height: 3px;
-        width: 80%;
-        background: rgb(236, 65, 65);
-        transform: translateX(-110%);
+      &:hover {
+        color: #000;
+      }
+      &.active {
+        font-size: 20px;
+        font-weight: 800;
+        color: rgb(55, 55, 55);
+        position: relative;
+        &::after {
+          position: absolute;
+          bottom: -8px;
+          content: "";
+          height: 3px;
+          width: 80%;
+          background: rgb(236, 65, 65);
+          transform: translateX(-110%);
+        }
       }
     }
   }

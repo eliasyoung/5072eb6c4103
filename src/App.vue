@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <header-comp></header-comp>
+    <LoginPanel v-if="showLoginPanel" @closePanel="togglePanel"></LoginPanel>
+    <header-comp @showPanel="togglePanel"></header-comp>
     <div class="main">
       <!-- <nav>
         <router-link to="/">Home</router-link> |
@@ -15,6 +16,22 @@
     <footer-comp></footer-comp>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      showLoginPanel: false,
+    };
+  },
+  methods: {
+    togglePanel(bool) {
+      if (this.showLoginPanel != bool)
+        this.showLoginPanel = !this.showLoginPanel;
+    },
+  },
+};
+</script>
 
 <style lang="less">
 .cursor-pointer {

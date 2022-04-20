@@ -19,8 +19,14 @@
     <i class="iconfont icon-skin cursor-pointer"></i>
     <i class="iconfont icon-setting cursor-pointer"></i>
     <div class="user-wrapper">
-      <el-avatar :size="30" icon="el-icon-user"></el-avatar>
-      <span>未登录<i class="el-icon-arrow-down el-icon--right"></i></span>
+      <el-avatar
+        :size="30"
+        icon="el-icon-user"
+        @click.native="showPanel"
+      ></el-avatar>
+      <span @click="showPanel"
+        >未登录<i class="el-icon-arrow-down el-icon--right"></i
+      ></span>
       <span>开通VIP</span>
     </div>
   </div>
@@ -28,6 +34,12 @@
 <script>
 export default {
   name: "HeaderComp",
+  methods: {
+    showPanel() {
+      console.log(111);
+      this.$emit("showPanel", true);
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
