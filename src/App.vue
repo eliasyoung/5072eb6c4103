@@ -49,10 +49,26 @@
   width: 100%;
 }
 
+.fs-20 {
+  font-size: 20px;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+.fs-16 {
+  font-size: 16px;
+}
+
+.fs-15 {
+  font-size: 15px;
+}
 .fs-14 {
   font-size: 14px;
 }
-
+.fs-13 {
+  font-size: 13px;
+}
 .fs-12 {
   font-size: 12px;
 }
