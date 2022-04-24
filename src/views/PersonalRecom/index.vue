@@ -9,13 +9,15 @@
         <img :src="banner.imageUrl" />
         <div
           class="banner-type"
-          :class="{ blue: banner.typeTitle == ('数字单曲' || '广告') }"
+          :class="{
+            blue: ['数字单曲', '广告', '专题'].includes(banner.typeTitle),
+          }"
         >
           {{ banner.typeTitle }}
         </div>
       </el-carousel-item>
     </el-carousel>
-    <info-card :name="'推荐歌单'" :infoData="personalizedData"> </info-card>
+    <info-card :name="'推荐歌单'" :infoData="recomPlaylist"> </info-card>
     <info-card :name="'最新音乐'" :infoData="newSongData" :numPerRow="4">
       <template v-slot:default="{ infoData: dataList }">
         <div class="flex">
@@ -64,7 +66,9 @@ import {
   reqGetPersonalizedNewsong,
   reqGetPrivateContent,
   reqGetPersonalizedMv,
+  reqGetRecomResource,
 } from "@/api";
+import { mapState } from "vuex";
 
 export default {
   name: "PersonalRecom",
@@ -75,6 +79,7 @@ export default {
       mvData: [],
       personalizedData: [],
       newSongData: [],
+      dailyRecomList: [],
     };
   },
   methods: {
@@ -82,20 +87,12 @@ export default {
       if (banner.typeTitle == "数字单曲" && banner.url) window.open(banner.url);
     },
     async getDiscoverBanner() {
-      try {
-        const res = await reqGetDiscoverBanner();
-        if (res.code == 200) this.bannersData = res.banners;
-      } catch (e) {
-        console.log(e);
-      }
+      const res = await reqGetDiscoverBanner();
+      if (res.code == 200) this.bannersData = res.banners;
     },
     async getPersonalized(limit) {
-      try {
-        const res = await reqGetPersonalized(limit);
-        if (res.code == 200) this.personalizedData = res.result;
-      } catch (e) {
-        console.log(e);
-      }
+      const res = await reqGetPersonalized(limit);
+      if (res.code == 200) this.personalizedData = res.result;
     },
     /* getPersonalizedNewsong(limit) {
       reqGetPersonalizedNewsong(limit)
@@ -106,28 +103,38 @@ export default {
         .catch((err) => console.log(err));
     }, */
     async getPersonalizedNewsong(limit) {
-      try {
-        const res = await reqGetPersonalizedNewsong(limit);
-        if (res.code == 200) this.newSongData = res.result;
-      } catch (e) {
-        console.log(e);
-      }
+      const res = await reqGetPersonalizedNewsong(limit);
+      if (res.code == 200) this.newSongData = res.result;
     },
     async getPrivateContent() {
-      try {
-        const res = await reqGetPrivateContent();
-        if (res.code == 200) this.privateContentData = res.result;
-      } catch (e) {
-        console.log(e);
-      }
+      const res = await reqGetPrivateContent();
+      if (res.code == 200) this.privateContentData = res.result;
     },
     async getPersonalizedMv() {
-      try {
-        const res = await reqGetPersonalizedMv();
-        if (res.code == 200) this.mvData = res.result;
-      } catch (e) {
-        console.log(e);
+      const res = await reqGetPersonalizedMv();
+      if (res.code == 200) this.mvData = res.result;
+    },
+    async getRecomResource() {
+      if (this.isLogin) {
+        const res = await reqGetRecomResource();
+        if (res.code == 200) {
+          this.dailyRecomList = res.recommend;
+        }
       }
+    },
+  },
+  computed: {
+    ...mapState("user", ["isLogin"]),
+    recomPlaylist() {
+      return this.isLogin ? this.dailyRecomList : this.personalizedData;
+    },
+  },
+  watch: {
+    isLogin: {
+      immediate: true,
+      handler() {
+        if (this.isLogin) this.getRecomResource();
+      },
     },
   },
   created() {
@@ -147,7 +154,6 @@ h2 {
   font-size: 12px;
 }
 .el-carousel {
-  margin-top: 32px;
   .el-carousel__item {
     border-radius: 8px;
     img {
@@ -195,6 +201,9 @@ h2 {
 }
 .newsong-outer-container {
   margin-right: 12px;
+  overflow: hidden;
+  flex-shrink: 1;
+  min-width: 0;
   .newsong-container {
     width: 100%;
     margin: 8px 0;
@@ -208,21 +217,34 @@ h2 {
     .title {
       color: rgb(55, 55, 55);
     }
-    .author {
-      li {
-        display: inline-block;
-        color: rgb(55, 55, 55);
-        font-weight: 100;
-        margin-right: 3px;
-        span:hover {
-          color: black;
-        }
-        &::after {
-          content: "/";
-          margin-left: 3px;
-        }
-        &:last-child::after {
-          content: "";
+    & > div {
+      overflow: hidden;
+      p {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .author {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        li {
+          display: inline-block;
+          color: rgb(55, 55, 55);
+          font-weight: 100;
+          margin-right: 3px;
+          span:hover {
+            color: black;
+          }
+          &::after {
+            content: "/";
+            margin-left: 3px;
+          }
+          &:last-child::after {
+            content: "";
+          }
         }
       }
     }

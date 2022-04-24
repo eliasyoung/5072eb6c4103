@@ -19,6 +19,6 @@ export default {
 .view-container {
   max-width: 1100px;
   margin: 0 auto;
-  padding-top: 20px;
+  padding-top: 52px;
 }
 </style>

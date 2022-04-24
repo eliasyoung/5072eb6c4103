@@ -30,6 +30,9 @@ export default {
         this.showLoginPanel = !this.showLoginPanel;
     },
   },
+  created() {
+    this.$store.dispatch("user/checkIfLogin");
+  },
 };
 </script>
 
@@ -60,6 +63,10 @@ export default {
 
 .jc-se {
   justify-content: space-evenly;
+}
+
+.ai-center {
+  align-items: center;
 }
 
 .w-100 {

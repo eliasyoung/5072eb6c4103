@@ -21,24 +21,86 @@
     <div class="user-wrapper">
       <el-avatar
         :size="30"
+        :src="profile.avatarUrl"
         icon="el-icon-user"
         @click.native="showPanel"
       ></el-avatar>
       <span @click="showPanel"
-        >未登录<i class="el-icon-arrow-down el-icon--right"></i
+        >{{ profile.nickname ? profile.nickname : "未登录"
+        }}<i class="el-icon-arrow-down el-icon--right"></i
       ></span>
       <span>开通VIP</span>
+      <div
+        v-if="isLogin && isUserPanelShowed"
+        class="user-panel-container b-radius-4 fs-13"
+      >
+        <div class="user-panel-content-container">
+          <div class="flex w-100">
+            <a>
+              <h2>{{ profile.eventCount }}</h2>
+              <p>动态</p>
+            </a>
+            <a>
+              <h2>{{ profile.follows }}</h2>
+              <p>关注</p>
+            </a>
+            <a>
+              <h2>{{ profile.followeds }}</h2>
+              <p>粉丝</p>
+            </a>
+          </div>
+        </div>
+        <div class="user-panel-content-container">
+          <a>会员中心</a>
+          <a>等级</a>
+          <a>商城</a>
+        </div>
+        <div class="user-panel-content-container">
+          <a>个人信息设置</a><a>绑定社交帐号</a>
+        </div>
+        <div class="user-panel-content-container">
+          <a @click.prevent="logout">退出登录</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "HeaderComp",
+  data() {
+    return {
+      isUserPanelShowed: false,
+    };
+  },
   methods: {
     showPanel() {
-      console.log(111);
-      this.$emit("showPanel", true);
+      if (!this.isLogin) this.$emit("showPanel", true);
+      else this.isUserPanelShowed = !this.isUserPanelShowed;
     },
+    logout() {
+      this.$confirm("确定要登出吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$store.dispatch("user/logout").then(() => {
+            this.isUserPanelShowed = false;
+            this.$message({
+              showClose: true,
+              message: "成功登出",
+              type: "success",
+            });
+          });
+        })
+        .catch(() => {});
+    },
+  },
+  computed: {
+    ...mapState("user", ["isLogin"]),
+    ...mapGetters("user", ["profile"]),
   },
 };
 </script>
@@ -88,7 +150,7 @@ export default {
     /deep/ .el-input__inner {
       font-size: 12px;
       border: 0;
-      height: 30px;
+      height: 24px;
       border-radius: 18px;
       background: rgb(225, 62, 62);
       color: #fff;
@@ -113,7 +175,7 @@ export default {
     float: right;
     font-size: 12px;
     color: rgb(252, 220, 220);
-
+    position: relative;
     .el-avatar {
       vertical-align: middle;
       cursor: pointer;
@@ -124,6 +186,56 @@ export default {
       transition: color 0.5s;
       &:hover {
         color: #fff;
+      }
+    }
+    .user-panel-container {
+      position: absolute;
+      width: 280px;
+      left: 50%;
+      color: rgb(55, 55, 55);
+      transform: translateX(-50%);
+      background: #fff;
+      box-shadow: 0px 2px 3px 0.1px #c5c5c5;
+      z-index: 99;
+
+      .user-panel-content-container {
+        border-bottom: 1px solid rgb(237, 237, 237);
+        padding: 6px 0;
+        & > a {
+          display: block;
+          height: 38px;
+          line-height: 38px;
+          cursor: pointer;
+          padding-left: 24px;
+          &:hover {
+            background: rgb(240, 241, 242);
+          }
+        }
+        &:last-of-type {
+          border-bottom: none;
+        }
+        & > div {
+          margin: 15px 0;
+          & > a {
+            display: flex;
+            width: 100%;
+            height: auto;
+            flex-flow: column nowrap;
+            align-items: center;
+            cursor: pointer;
+            & > h2 {
+              height: 36px;
+              line-height: 36px;
+              font-size: 20px;
+            }
+            & > p {
+              height: 10px;
+              line-height: 10px;
+              font-size: 10px;
+              font-weight: 100;
+            }
+          }
+        }
       }
     }
   }

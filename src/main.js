@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import "./plugins/element.js";
 import router from "./router";
+import store from "./store";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -17,7 +18,10 @@ Vue.component(AsideMenu.name, AsideMenu);
 Vue.component(RouterMenu.name, RouterMenu);
 Vue.component(LoginPanel.name, LoginPanel);
 
+import "@/utils/routerfix";
+
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

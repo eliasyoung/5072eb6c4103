@@ -57,7 +57,7 @@ export default {
   top: 60px;
   background: #fff;
   width: 100%;
-  z-index: 999;
+  z-index: 9;
   align-items: center;
   ul {
     li {
