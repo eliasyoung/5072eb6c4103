@@ -17,9 +17,42 @@
         </div>
       </el-carousel-item>
     </el-carousel>
-    <info-card :name="'推荐歌单'" :infoData="recomPlaylist"> </info-card>
+    <!-- <info-card :name="'推荐歌单'" :infoData="recomPlaylist"> </info-card> -->
+    <info-card :name="'推荐歌单'" :infoData="recomPlaylist">
+      <template v-slot:default="{ groupedInfoData: dataList, contentMaxWidth }">
+        <div
+          class="outer-container"
+          v-for="(list, dIndex) in dataList"
+          :key="dIndex"
+        >
+          <div
+            class="content-container"
+            style="margin-top: 8px; margin-bottom: 8px"
+            v-for="(item, index) in list"
+            :key="item.id"
+            :style="{
+              maxWidth: contentMaxWidth,
+            }"
+          >
+            <div
+              class="img-container"
+              :class="{
+                'daily-recommend': index == 0 && dIndex == 0 && isLogin,
+              }"
+              :data-attr="index == 0 && dIndex == 0 && isLogin ? getDate : null"
+            >
+              <img class="cursor-pointer" :src="item.sPicUrl || item.picUrl" />
+            </div>
+
+            <p class="title cursor-pointer text-overflow-hidden">
+              {{ item.name }}
+            </p>
+          </div>
+        </div>
+      </template>
+    </info-card>
     <info-card :name="'最新音乐'" :infoData="newSongData" :numPerRow="4">
-      <template v-slot:default="{ infoData: dataList }">
+      <template v-slot:default="{ groupedInfoData: dataList }">
         <div class="flex">
           <div
             v-for="(list, index) in dataList"
@@ -69,6 +102,7 @@ import {
   reqGetRecomResource,
 } from "@/api";
 import { mapState } from "vuex";
+import backgroundImg from "@/assets/images/background1.png";
 
 export default {
   name: "PersonalRecom",
@@ -118,6 +152,8 @@ export default {
       if (this.isLogin) {
         const res = await reqGetRecomResource();
         if (res.code == 200) {
+          const obj = { name: "每日歌曲推荐", picUrl: backgroundImg };
+          res.recommend.unshift(obj);
           this.dailyRecomList = res.recommend;
         }
       }
@@ -128,22 +164,29 @@ export default {
     recomPlaylist() {
       return this.isLogin ? this.dailyRecomList : this.personalizedData;
     },
+    getDate() {
+      return new Date().getDate();
+    },
   },
   watch: {
     isLogin: {
       immediate: true,
       handler() {
-        if (this.isLogin) this.getRecomResource();
+        if (this.isLogin) {
+          this.getRecomResource();
+        } else {
+          this.getPersonalized(10);
+        }
       },
     },
   },
   created() {
     this.getDiscoverBanner();
-    this.getPersonalized(10);
     this.getPersonalizedNewsong(12);
     this.getPrivateContent();
     this.getPersonalizedMv();
   },
+
   components: {
     InfoCard,
   },
@@ -247,6 +290,32 @@ h2 {
           }
         }
       }
+    }
+  }
+}
+
+.img-container {
+  &.daily-recommend {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      background: no-repeat center/contain url("@/assets/images/calendar-w.png");
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 35%;
+      height: 35%;
+    }
+    &::before {
+      content: attr(data-attr);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -30%);
+      color: #fff;
+      font-size: 30px;
+      letter-spacing: -1px;
     }
   }
 }

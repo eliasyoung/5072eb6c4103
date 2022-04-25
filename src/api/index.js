@@ -12,7 +12,7 @@ export const reqGetPrivateContent = () => get("/personalized/privatecontent");
 export const reqGetPersonalizedMv = () => get("/personalized/mv");
 // 获取每日推荐歌单（需登录后调用）
 export const reqGetRecomResource = () => get("/recommend/resource");
-
+export const reqGetRecomSong = () => get("/recommend/songs");
 /* qrcode */
 export const reqGetQrcodeKey = () =>
   get("/login/qr/key", { timestamp: new Date().getTime() });

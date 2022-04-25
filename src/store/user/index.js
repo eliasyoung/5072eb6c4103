@@ -5,10 +5,14 @@ import {
   reqGetUserDetail,
   reqLogout,
 } from "@/api";
-import { checkEmptyArrary } from "@/utils";
+import {
+  checkEmptyArrary,
+  getLocalLoginStatus,
+  storeLocalLoginStatus,
+} from "@/utils";
 
 const state = {
-  isLogin: false,
+  isLogin: getLocalLoginStatus() || false,
   account: {},
   // profile: {},
   detail: {},
@@ -17,7 +21,9 @@ const state = {
 };
 const mutations = {
   CHANGELOGINSTATUS(state, payload) {
+    if (state.isLogin == payload) return;
     state.isLogin = payload;
+    storeLocalLoginStatus(payload);
   },
   UPDATEACCOUNT(state, payload) {
     state.account = payload;
@@ -49,6 +55,8 @@ const actions = {
       dispatch("getUserSubcount");
       dispatch("getUserDetail");
       dispatch("getUserPlaylist");
+    } else {
+      commit("CHANGELOGINSTATUS", false);
     }
   },
   async getUserPlaylist({ commit, getters }) {
@@ -79,7 +87,7 @@ const actions = {
     if (res.code == 200) {
       dispatch("toggleLoginStatus", false);
       commit("UPDATEACCOUNT", {});
-      commit("UPDATEPROFILE", {});
+      commit("UPDATEDETAIL", {});
       return Promise.resolve(res);
     }
   },

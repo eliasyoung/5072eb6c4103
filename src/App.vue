@@ -45,6 +45,12 @@ export default {
   cursor: default;
 }
 
+.text-overflow-hidden {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .flex {
   display: flex;
 }
@@ -55,6 +61,10 @@ export default {
 
 .fd-column-wrap {
   flex-flow: column wrap;
+}
+
+.fd-row-wrap {
+  flex-flow: row wrap;
 }
 
 .jc-center {

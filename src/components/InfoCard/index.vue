@@ -3,7 +3,11 @@
     <div class="header-container cursor-pointer">
       <h1>{{ name }}<i class="el-icon-arrow-right"></i></h1>
     </div>
-    <slot :infoData="dataList">
+    <slot
+      :groupedInfoData="dataList"
+      :infoData="infoData"
+      :contentMaxWidth="contentMaxWidth"
+    >
       <div
         class="outer-container"
         v-for="(list, index) in dataList"
@@ -17,17 +21,22 @@
             maxWidth: contentMaxWidth,
           }"
         >
-          <div class="img-container">
+          <div class="img-container cursor-pointer">
             <img
-              class="cursor-pointer"
               :src="item.sPicUrl || item.picUrl"
               :style="{ height: imgHeight + 'px' }"
             />
           </div>
 
-          <p class="title cursor-pointer">{{ item.name }}</p>
-          <ul class="author">
-            <li v-for="artist in item.artists" :key="artist.id">
+          <p class="title cursor-pointer text-overflow-hidden">
+            {{ item.name }}
+          </p>
+          <ul class="author text-overflow-hidden w-100">
+            <li
+              v-for="artist in item.artists"
+              :key="artist.id"
+              class="text-overflow-hidden"
+            >
               <span class="cursor-pointer">{{ artist.name }}</span>
             </li>
           </ul>
@@ -74,7 +83,8 @@ export default {
     contentMaxWidth() {
       return this.infoData.length <= this.numPerRow
         ? "100%"
-        : (1100 - (this.numPerRow - 1) * 18) / this.numPerRow + "px";
+        : ((1100 - (this.numPerRow - 1) * 18) / 1100 / this.numPerRow) * 100 +
+            "%";
     },
   },
 };
@@ -138,7 +148,7 @@ export default {
       }
       .img-container {
         img {
-          border-radius: 8px;
+          border-radius: 4px;
           width: 100%;
           object-fit: cover;
         }
