@@ -41,3 +41,11 @@ export const reqGetUserDetail = (uid) => get("/user/detail", { uid });
 
 export const reqGetUserPlaylist = (uid, offset, limit) =>
   get("/user/playlist", { uid, offset, limit });
+
+/* song */
+
+export const reqCheckMusicValid = (id, br) => get("/check/music", { id, br }); //检查歌曲是否可用，如 有无版权
+
+//获取歌曲url
+//部分用户反馈获取的 url 会 403,hwaphon找到的解决方案是当获取到音乐的 id 后，将 https://music.163.com/song/media/outer/url?id=id.mp3 以 src 赋予 Audio 即可播放
+export const reqGetSongUrl = (id, br) => get("/song/url", { id, br });

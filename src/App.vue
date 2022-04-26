@@ -75,6 +75,10 @@ export default {
   justify-content: space-evenly;
 }
 
+.jc-sb {
+  justify-content: space-between;
+}
+
 .ai-center {
   align-items: center;
 }

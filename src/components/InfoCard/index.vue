@@ -9,7 +9,7 @@
       :contentMaxWidth="contentMaxWidth"
     >
       <div
-        class="outer-container"
+        class="outer-container jc-sb"
         v-for="(list, index) in dataList"
         :key="index"
       >
@@ -81,10 +81,18 @@ export default {
       return arr;
     },
     contentMaxWidth() {
-      return this.infoData.length <= this.numPerRow
+      /* return this.infoData.length <= this.numPerRow
         ? "100%"
         : ((1100 - (this.numPerRow - 1) * 18) / 1100 / this.numPerRow) * 100 +
-            "%";
+            "%"; */
+      /* return this.infoData.length <= this.numPerRow
+        ? 100 / this.infoData.length + "%"
+        : 100 / this.numPerRow + "%"; */
+      return this.infoData.length <= this.numPerRow
+        ? ((1100 - this.infoData.length * 18) / 1100 / this.infoData.length) *
+            100 +
+            "%"
+        : ((1100 - this.numPerRow * 18) / 1100 / this.numPerRow) * 100 + "%";
     },
   },
 };
@@ -109,7 +117,7 @@ export default {
     display: flex;
     margin: 12px 0;
     .content-container {
-      margin: 0 9px;
+      // margin: 0 9px;
       overflow: hidden;
       width: 100%;
       .title {
@@ -140,12 +148,12 @@ export default {
           }
         }
       }
-      &:first-child {
-        margin-left: 0;
-      }
-      &:last-child {
-        margin-right: 0;
-      }
+      // &:first-child {
+      //   margin-left: 0;
+      // }
+      // &:last-child {
+      //   margin-right: 0;
+      // }
       .img-container {
         img {
           border-radius: 4px;

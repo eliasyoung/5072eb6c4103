@@ -10,7 +10,9 @@
         <div
           class="banner-type"
           :class="{
-            blue: ['数字单曲', '广告', '专题'].includes(banner.typeTitle),
+            blue: ['数字单曲', '广告', '专题', '活动'].includes(
+              banner.typeTitle
+            ),
           }"
         >
           {{ banner.typeTitle }}
@@ -19,27 +21,23 @@
     </el-carousel>
     <!-- <info-card :name="'推荐歌单'" :infoData="recomPlaylist"> </info-card> -->
     <info-card :name="'推荐歌单'" :infoData="recomPlaylist">
-      <template v-slot:default="{ groupedInfoData: dataList, contentMaxWidth }">
-        <div
-          class="outer-container"
-          v-for="(list, dIndex) in dataList"
-          :key="dIndex"
-        >
+      <template v-slot:default="{ infoData: dataList, contentMaxWidth }">
+        <div class="outer-container fd-row-wrap jc-sb">
           <div
             class="content-container"
             style="margin-top: 8px; margin-bottom: 8px"
-            v-for="(item, index) in list"
+            v-for="(item, index) in dataList"
             :key="item.id"
             :style="{
-              maxWidth: contentMaxWidth,
+              width: contentMaxWidth,
             }"
           >
             <div
               class="img-container"
               :class="{
-                'daily-recommend': index == 0 && dIndex == 0 && isLogin,
+                'daily-recommend': index == 0 && isLogin,
               }"
-              :data-attr="index == 0 && dIndex == 0 && isLogin ? getDate : null"
+              :data-attr="index == 0 && isLogin ? getDate : null"
             >
               <img class="cursor-pointer" :src="item.sPicUrl || item.picUrl" />
             </div>
@@ -63,10 +61,18 @@
               v-for="item in list"
               :key="item.id"
               class="newsong-container flex b-radius-6"
+              @dblclick.self="playSongHandler"
             >
-              <img :src="item.picUrl" class="b-radius-6 cursor-pointer" />
+              <img
+                :src="item.picUrl"
+                class="b-radius-6 cursor-pointer"
+                @click="playSongHandler"
+              />
               <div class="flex jc-se fd-column-wrap mg-l-10">
-                <p class="title cursor-default fs-14">
+                <p
+                  class="title cursor-default fs-14"
+                  @dblclick.stop="playSongHandler"
+                >
                   {{ item.song.name
                   }}<span
                     style="color: rgb(55, 55, 55)"
@@ -76,7 +82,11 @@
                   >
                 </p>
                 <ul class="author fs-12">
-                  <li v-for="artist in item.song.artists" :key="artist.id">
+                  <li
+                    v-for="artist in item.song.artists"
+                    :key="artist.id"
+                    @dblclick.self="playSongHandler"
+                  >
                     <span class="cursor-pointer">{{ artist.name }}</span>
                   </li>
                 </ul>
@@ -154,9 +164,15 @@ export default {
         if (res.code == 200) {
           const obj = { name: "每日歌曲推荐", picUrl: backgroundImg };
           res.recommend.unshift(obj);
+          if (res.recommend.length < 10) {
+            res.recommend.push({ name: "", picUrl: "" });
+          }
           this.dailyRecomList = res.recommend;
         }
       }
+    },
+    playSongHandler() {
+      console.log("play song!");
     },
   },
   computed: {
@@ -294,28 +310,31 @@ h2 {
   }
 }
 
-.img-container {
-  &.daily-recommend {
-    position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      background: no-repeat center/contain url("@/assets/images/calendar-w.png");
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 35%;
-      height: 35%;
-    }
-    &::before {
-      content: attr(data-attr);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -30%);
-      color: #fff;
-      font-size: 30px;
-      letter-spacing: -1px;
+.outer-container {
+  .img-container {
+    &.daily-recommend {
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        background: no-repeat center/contain
+          url("@/assets/images/calendar-w.png");
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 35%;
+        height: 35%;
+      }
+      &::before {
+        content: attr(data-attr);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -30%);
+        color: #fff;
+        font-size: 30px;
+        letter-spacing: -2px;
+      }
     }
   }
 }
