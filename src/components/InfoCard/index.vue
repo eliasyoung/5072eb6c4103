@@ -1,7 +1,9 @@
 <template>
   <div class="info-card-container">
-    <div class="header-container cursor-pointer">
-      <h1>{{ name }}<i class="el-icon-arrow-right"></i></h1>
+    <div class="header-container">
+      <h1 class="cursor-pointer">
+        {{ name }}<i class="el-icon-arrow-right"></i>
+      </h1>
     </div>
     <slot
       :groupedInfoData="dataList"
@@ -107,6 +109,7 @@ export default {
     h1 {
       font-size: 20px;
       color: rgb(55, 55, 55);
+      display: inline;
       i {
         margin-left: 2px;
         // vertical-align: middle;

@@ -110,6 +110,7 @@ import {
   reqGetPrivateContent,
   reqGetPersonalizedMv,
   reqGetRecomResource,
+  reqGetPlaylistDetail,
 } from "@/api";
 import { mapState } from "vuex";
 import backgroundImg from "@/assets/images/background1.png";
@@ -164,8 +165,11 @@ export default {
         if (res.code == 200) {
           const obj = { name: "每日歌曲推荐", picUrl: backgroundImg };
           res.recommend.unshift(obj);
-          if (res.recommend.length < 10) {
+          while (res.recommend.length < 10) {
             res.recommend.push({ name: "", picUrl: "" });
+          }
+          if (res.recommend.length > 10) {
+            res.recommend.splice(10, res.recommend.length);
           }
           this.dailyRecomList = res.recommend;
         }
@@ -201,6 +205,9 @@ export default {
     this.getPersonalizedNewsong(12);
     this.getPrivateContent();
     this.getPersonalizedMv();
+    reqGetPlaylistDetail(1988668862).then((res) => {
+      console.log(res);
+    });
   },
 
   components: {

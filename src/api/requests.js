@@ -13,6 +13,7 @@ export default (url, params) => {
     })
 
     .catch((err) => {
-      Vue.prototype.$message(err);
+      Vue.prototype.$message(err.message);
+      // console.log(err);
     });
 };

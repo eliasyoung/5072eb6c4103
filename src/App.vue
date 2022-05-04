@@ -79,6 +79,10 @@ export default {
   justify-content: space-between;
 }
 
+.jc-sa {
+  justify-content: space-around;
+}
+
 .ai-center {
   align-items: center;
 }
@@ -113,6 +117,10 @@ export default {
 
 .fw-8 {
   font-weight: 800;
+}
+
+.fw-4 {
+  font-weight: 400;
 }
 
 .fw-1 {
