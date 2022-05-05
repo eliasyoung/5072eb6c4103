@@ -43,7 +43,28 @@
         <div class="end-time">{{ formatEndTime || 0 }}</div>
       </div>
     </div>
-    <div class="right-container"><div v-if="detail">123456</div></div>
+    <div class="right-container">
+      <div class="flex right-content-container" v-if="detail">
+        <i class="iconfont icon-jingyunyinxiaopt-wangyiicon"></i>
+        <div class="volume-control flex ai-center">
+          <i
+            class="iconfont"
+            :class="
+              isMuted ? 'icon-24gl-volumeDisable' : 'icon-24gl-volumeZero'
+            "
+            @click="togglePlayerMuted"
+          ></i>
+          <slide-comp
+            :slideWidth="60"
+            :slideProgress="volumePercentage"
+            :hoverScale="false"
+            @onSlideClick="volumeSlideClickHandler"
+            @onDragging="volumeDraggingHandler"
+          ></slide-comp>
+        </div>
+        <i class="iconfont icon-playlist"></i>
+      </div>
+    </div>
     <!-- <audio :src="songUrl" ref="player"></audio> -->
   </div>
 </template>
@@ -60,6 +81,8 @@ export default {
       // "https://music.163.com/song/media/outer/url?id=64435.mp3"
       playButtonClass: "icon-playfill",
       timer: undefined,
+      volume: 0.5,
+      isMuted: false,
     };
   },
   watch: {
@@ -67,6 +90,12 @@ export default {
       immediate: true,
       handler(newV) {
         if (newV) this.player.src = newV;
+      },
+    },
+    volume: {
+      immediate: true,
+      handler(newV) {
+        this.player.volume = newV;
       },
     },
   },
@@ -103,6 +132,15 @@ export default {
     formatEndTime() {
       if (this.detail) return songDurationFormat(this.detail.dt);
       else return songDurationFormat(0);
+    },
+    volumePercentage: {
+      get() {
+        if (this.isMuted) return "0%";
+        else return this.volume * 100 + "%";
+      },
+      set(value) {
+        this.volume = value;
+      },
     },
   },
   methods: {
@@ -149,6 +187,17 @@ export default {
       this.player.currentTime = this.currentTime;
       if (!this.player.paused) this.getCurrentTime();
     },
+    togglePlayerMuted() {
+      this.player.muted = !this.player.muted;
+      this.isMuted = this.player.muted;
+    },
+    volumeSlideClickHandler(progress) {
+      this.volume = progress;
+    },
+    volumeDraggingHandler(progress) {
+      this.volume = progress;
+    },
+    // volumeDragEndHandler() {},
   },
   components: {
     SlideComp,
@@ -345,5 +394,21 @@ export default {
   display: flex;
   justify-content: flex-end;
   flex: 1;
+  i {
+    font-size: 22px;
+    color: rgb(55, 55, 55);
+    cursor: pointer;
+    &:hover {
+      color: black;
+    }
+  }
+  .right-content-container {
+    & > i {
+      margin-right: 26px;
+    }
+  }
+  .volume-control {
+    margin-right: 26px;
+  }
 }
 </style>
